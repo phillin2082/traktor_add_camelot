@@ -1,0 +1,28 @@
+def camelot_wheel():
+    camelot_wheel = [
+        {'traktor_key': 0, 'camelot_key': '08B'},
+        {'traktor_key': 1, 'camelot_key': '03B'},
+        {'traktor_key': 2, 'camelot_key': '10B'},
+        {'traktor_key': 3, 'camelot_key': '05B'},
+        {'traktor_key': 4, 'camelot_key': '12B'},
+        {'traktor_key': 5, 'camelot_key': '07B'},
+        {'traktor_key': 6, 'camelot_key': '02B'},
+        {'traktor_key': 7, 'camelot_key': '09B'},
+        {'traktor_key': 8, 'camelot_key': '04B'},
+        {'traktor_key': 9, 'camelot_key': '11B'},
+        {'traktor_key': 10, 'camelot_key': '06B'},
+        {'traktor_key': 11, 'camelot_key': '01B'},
+        {'traktor_key': 12, 'camelot_key': '05A'},
+        {'traktor_key': 13, 'camelot_key': '12A'},
+        {'traktor_key': 14, 'camelot_key': '07A'},
+        {'traktor_key': 15, 'camelot_key': '02A'},
+        {'traktor_key': 16, 'camelot_key': '09A'},
+        {'traktor_key': 17, 'camelot_key': '04A'},
+        {'traktor_key': 18, 'camelot_key': '11A'},
+        {'traktor_key': 19, 'camelot_key': '06A'},
+        {'traktor_key': 20, 'camelot_key': '01A'},
+        {'traktor_key': 21, 'camelot_key': '08A'},
+        {'traktor_key': 22, 'camelot_key': '03A'},
+        {'traktor_key': 23, 'camelot_key': '10A'},
+    ]
+    return (camelot_wheel)

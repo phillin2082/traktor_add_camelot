@@ -1,8 +1,25 @@
+# %%
+import argparse
 #import xml.etree.ElementTree as et
 from lxml import etree
 from shutil import copy2
 from time import strftime
-#from data import CamelotWheel
+from sys import exit
+from readline import parse_and_bind
+parse_and_bind("control-v: paste")
+
+# %%
+parser = argparse.ArgumentParser(description='Script to add keys')
+parser.add_argument('-f', '--file', help='full path of collection.nml file', required=False)
+args = vars(parser.parse_args())
+
+if (args['file'] is not None):
+    nml_fullpath = args['file']
+else:        
+    nml_fullpath = input("Enter full path to collection.nml file: ")
+
+#nml_fullpath = '/data/allscripts-git/python/projects/dev/traktor_add_camelot_package/collection.nml'
+#nml_fullpath = r'E:\scripts2-git\python\projects\dev\traktor_add_camelot_package\collection.nml'
 
 def camelot_wheel():
     camelot_wheel = [
@@ -34,28 +51,48 @@ def camelot_wheel():
     return (camelot_wheel)
 
 
-def backup_nml(nml):
-    """Input is full path to file. Backs up file appending timestamp"""
+"""
+def _nml(nml):    
     timestr = strftime("%Y%m%d-%H%M%S")
     src = nml
     dst = nml + timestr
-    copy2(src,dst)    
+    copy2(src, dst)    
     print("File is backed up to " + dst)
+"""
 
-#nml_fullpath = input("Fullpath of collection.nml file\n")
 
-nml_fullpath = '/data/allscripts-git/python/projects/dev/traktor_add_camelot_package/collection.nml'
+def copy_nml(nml):
+    """Input is full path to file. Backs up file appending timestamp"""
+    timestr = strftime("-%Y%m%d-%H%M%S")
+    src = nml
+    dst = nml + timestr
+    copy2(src, dst)    
+    return dst
 
-datafile = nml_fullpath
+try:
+    datafile = copy_nml(nml_fullpath)
+except FileNotFoundError:
+    print("The file collection.nml was not found")
+    exit(1)
+except:
+    print("An error occurred when reading or writing the file. Check file or permissions")
+    exit(1)
+
 tree = etree.parse(datafile, etree.XMLParser(recover=True))
 root = tree.getroot()
 camelot_wheel = camelot_wheel()
-backup_nml(nml_fullpath)
+#backup_nml(nml_fullpath)
 
-print("Writing...")
+print("Running...")
 entries = list(root.iter('ENTRY'))
+
+
 for entry in entries:
-    print(entry.tag, entry.attrib)
+    #print(entry.tag, entry.attrib)
+    try:
+        print("Entering key for: " + entry.attrib['TITLE'])
+    except:
+        pass
     filename = ''
     traktor_key = ''
     key = ''
@@ -72,8 +109,10 @@ for entry in entries:
         for camelot_spoke in camelot_wheel:
             if int(traktor_key) == int(camelot_spoke['traktor_key']):
                 entry.find('INFO').attrib['KEY'] = camelot_spoke['camelot_key']
-                print(camelot_spoke['traktor_key'], camelot_spoke['camelot_key'])
+                #print(camelot_spoke['traktor_key'], camelot_spoke['camelot_key'])
        
 tree.write(datafile)      
+print("-------------------")
 print("Success!")
+print("-------------------")
 input("Press Enter to close out this window.")
